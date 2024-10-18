@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: HomePage(),
-      debugShowCheckedModeBanner: false,  // This removes the "Debug" banner
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -23,13 +23,50 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        backgroundColor: Colors.yellow[100],
+        title: Text(
+          'FlavorFit Home',
+          style: _darkGreenTextStyle(),
+        ),
         actions: [
           _menuButton(context),
         ],
       ),
-      body: Center(
-        child: Text('Welcome to the Home Page!'),
+      body: _backgroundContainer(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Meals that Fit Your Life, Flavor that Inspires.',
+                style: _mottoTextStyle(),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 50), // Adds spacing
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ExploreRecipesPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50), // Button size
+                  backgroundColor: Colors.green, // Button color
+                  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Text style
+                ),
+                child: Text(
+                  'Start Exploring our FlavorFit Recipes!', style: TextStyle(fontSize: 28, color: Colors.white)
+                ),
+              ),
+              SizedBox(height: 50), // Adds spacing
+              Text(
+                'Welcome to the Home Page!',
+                style: _darkGreenTextStyle(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -40,13 +77,21 @@ class ExploreRecipesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Explore Recipes'),
+        title: Text(
+          'Explore Recipes',
+          style: _darkGreenTextStyle(),
+        ),
         actions: [
           _menuButton(context),
         ],
       ),
-      body: Center(
-        child: Text('Explore delicious recipes!'),
+      body: _backgroundContainer(
+        child: Center(
+          child: Text(
+            'Explore delicious recipes!',
+            style: _darkGreenTextStyle(),
+          ),
+        ),
       ),
     );
   }
@@ -57,13 +102,21 @@ class MyGroceryListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Grocery List'),
+        title: Text(
+          'My Grocery List',
+          style: _darkGreenTextStyle(),
+        ),
         actions: [
           _menuButton(context),
         ],
       ),
-      body: Center(
-        child: Text('Here\'s your grocery list.'),
+      body: _backgroundContainer(
+        child: Center(
+          child: Text(
+            'Here\'s your grocery list.',
+            style: _darkGreenTextStyle(),
+          ),
+        ),
       ),
     );
   }
@@ -74,13 +127,21 @@ class MyMealPlanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Meal Plan'),
+        title: Text(
+          'My Meal Plan',
+          style: _darkGreenTextStyle(),
+        ),
         actions: [
           _menuButton(context),
         ],
       ),
-      body: Center(
-        child: Text('Plan your meals here.'),
+      body: _backgroundContainer(
+        child: Center(
+          child: Text(
+            'Plan your meals here.',
+            style: _darkGreenTextStyle(),
+          ),
+        ),
       ),
     );
   }
@@ -91,13 +152,21 @@ class MyFavoriteRecipesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Favorite Recipes'),
+        title: Text(
+          'My Favorite Recipes',
+          style: _darkGreenTextStyle(),
+        ),
         actions: [
           _menuButton(context),
         ],
       ),
-      body: Center(
-        child: Text('These are your favorite recipes.'),
+      body: _backgroundContainer(
+        child: Center(
+          child: Text(
+            'These are your favorite recipes.',
+            style: _darkGreenTextStyle(),
+          ),
+        ),
       ),
     );
   }
@@ -107,7 +176,10 @@ PopupMenuButton<String> _menuButton(BuildContext context) {
   return PopupMenuButton<String>(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text("Navigation Menu", style: TextStyle(color: Colors.black)),
+      child: Text(
+        "Menu",
+        style: _darkGreenTextStyle(),
+      ),
     ),
     onSelected: (String result) {
       switch (result) {
@@ -131,24 +203,53 @@ PopupMenuButton<String> _menuButton(BuildContext context) {
     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
       const PopupMenuItem<String>(
         value: 'Home',
-        child: Text('Home'),
+        child: Text('Home', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
       ),
       const PopupMenuItem<String>(
         value: 'Explore Recipes',
-        child: Text('Explore Recipes'),
+        child: Text('Explore Recipes', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
       ),
       const PopupMenuItem<String>(
         value: 'My Grocery List',
-        child: Text('My Grocery List'),
+        child: Text('My Grocery List', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
       ),
       const PopupMenuItem<String>(
         value: 'My Meal Plan',
-        child: Text('My Meal Plan'),
+        child: Text('My Meal Plan', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
       ),
       const PopupMenuItem<String>(
         value: 'My Favorite Recipes',
-        child: Text('My Favorite Recipes'),
+        child: Text('My Favorite Recipes', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
       ),
     ],
+  );
+}
+
+Widget _backgroundContainer({required Widget child}) {
+  return Container(
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage("C:/Users/emmaw/Downloads/uppiez.jpg"),
+        fit: BoxFit.cover,
+      ),
+    ),
+    child: child,
+  );
+}
+
+TextStyle _darkGreenTextStyle() {
+  return TextStyle(
+    color: Colors.green[900], // Dark green color
+    fontWeight: FontWeight.bold, // Bold text
+    fontSize: 24,
+  );
+}
+
+TextStyle _mottoTextStyle() {
+  return TextStyle(
+    color: Colors.green[900], // Dark green color
+    fontWeight: FontWeight.bold, // Bold text
+    fontStyle: FontStyle.italic, // Italics
+    fontSize: 44, // Large size for motto
   );
 }
