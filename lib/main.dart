@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'card.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -73,6 +75,9 @@ class HomePage extends StatelessWidget {
 }
 
 class ExploreRecipesPage extends StatelessWidget {
+   int index = 0;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,14 +91,29 @@ class ExploreRecipesPage extends StatelessWidget {
         ],
       ),
       body: _backgroundContainer(
-        child: Center(
-          child: Text(
-            'Explore delicious recipes!',
-            style: _darkGreenTextStyle(),
-          ),
-        ),
-      ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2, // Number of columns
+                                        crossAxisSpacing: 10.0,
+                                        mainAxisSpacing: 10.0,
+                                        childAspectRatio: 0.8, // To adjust height vs width ratio
+                                      ),
+                        itemCount: recipes.length,
+                        itemBuilder: (context, index) {
+                          final recipe = recipes[index];
+                          return RecipeCard(
+                         image: recipe["image"]!,
+                         title: recipe["title"]!,
+                          );
+                        },
+                      ),
+                    ),
+            ),
     );
+        
+   
   }
 }
 
@@ -226,10 +246,12 @@ PopupMenuButton<String> _menuButton(BuildContext context) {
 }
 
 Widget _backgroundContainer({required Widget child}) {
+  
   return Container(
+    
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: AssetImage("C:/Users/emmaw/Downloads/uppiez.jpg"),
+        image: AssetImage("assets/uppiez.jpg"),
         fit: BoxFit.cover,
       ),
     ),
@@ -253,3 +275,14 @@ TextStyle _mottoTextStyle() {
     fontSize: 44, // Large size for motto
   );
 }
+
+ final List<Map<String, String>> recipes = [
+    {"image": "assets/images/recipe1.jpg", "title": "Spaghetti Bolognese"},
+    {"image": "assets/images/recipe2.jpg", "title": "Grilled Chicken"},
+    {"image": "assets/images/recipe3.jpg", "title": "Sushi Rolls"},
+    {"image": "assets/images/recipe4.jpg", "title": "Pancakes"},
+    {"image": "assets/images/recipe5.jpg", "title": "Salmon Teriyaki"},
+    {"image": "assets/images/recipe6.jpg", "title": "Veggie Stir Fry"},
+    {"image": "assets/images/recipe7.jpg", "title": "Tacos"},
+    {"image": "assets/images/recipe8.jpg", "title": "Pizza Margherita"},
+  ];
