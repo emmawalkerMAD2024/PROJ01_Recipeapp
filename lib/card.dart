@@ -31,7 +31,7 @@ import 'package:flutter/material.dart';
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.green[900]),
             ),
           ),
         ],

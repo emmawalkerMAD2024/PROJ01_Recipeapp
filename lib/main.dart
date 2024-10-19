@@ -167,13 +167,4 @@ TextStyle mottoTextStyle() {
   );
 }
 
- final List<Map<String, String>> recipes = [
-    {"image": "assets/images/recipe1.jpg", "title": "Spaghetti Bolognese"},
-    {"image": "assets/images/recipe2.jpg", "title": "Grilled Chicken"},
-    {"image": "assets/images/recipe3.jpg", "title": "Sushi Rolls"},
-    {"image": "assets/images/recipe4.jpg", "title": "Pancakes"},
-    {"image": "assets/images/recipe5.jpg", "title": "Salmon Teriyaki"},
-    {"image": "assets/images/recipe6.jpg", "title": "Veggie Stir Fry"},
-    {"image": "assets/images/recipe7.jpg", "title": "Tacos"},
-    {"image": "assets/images/recipe8.jpg", "title": "Pizza Margherita"},
-  ];
+ 

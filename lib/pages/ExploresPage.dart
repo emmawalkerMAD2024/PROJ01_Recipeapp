@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/main.dart';
-import 'package:p1_recipeapp_emmajared/card.dart';
+import '/card.dart';
+import 'RecipeDetailPage.dart';
 
 
 
@@ -35,17 +36,50 @@ void main() {
                                       ),
                         itemCount: recipes.length,
                         itemBuilder: (context, index) {
-                          final recipe = recipes[index];
-                          return RecipeCard(
-                         image: recipe["image"]!,
-                         title: recipe["title"]!,
+                        final recipe = recipes[index];
+                        return GestureDetector(
+                           onTap: () {
+                              // Navigate to RecipeDetailPage when a recipe is clicked
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                             builder: (context) => RecipeDetailPage(recipe: recipe),
+                                    ),
+                                  );
+                                },
+                                child: RecipeCard(
+                                                     image: recipe["image"]!,
+                                                     title: recipe["title"]!,
+                            ),
                           );
                         },
                       ),
                     ),
             ),
     );
+
+
         
    
   }
 }
+
+
+
+
+
+ final List<Map<String, dynamic>> recipes = [
+    {
+      "image": "assets/images/recipe1.jpg",
+      "title": "Spaghetti Bolognese",
+      "ingredients": ["Spaghetti", "Ground Beef", "Tomato Sauce", "Onion", "Garlic"],
+      "instructions": "Boil spaghetti. Cook beef with onion and garlic. Add tomato sauce. Combine and serve."
+    },
+    {
+      "image": "assets/images/recipe2.jpg",
+      "title": "Grilled Chicken",
+      "ingredients": ["Chicken Breast", "Olive Oil", "Lemon", "Garlic", "Thyme"],
+      "instructions": "Marinate chicken in olive oil, lemon, garlic, and thyme. Grill until fully cooked."
+    },
+    // Add more recipes as needed
+  ];
