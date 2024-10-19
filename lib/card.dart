@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
   final String image;
   final String title;
 
+
   const RecipeCard({required this.image, required this.title});
 
   @override
@@ -38,3 +39,4 @@ import 'package:flutter/material.dart';
     );
   }
 }
+

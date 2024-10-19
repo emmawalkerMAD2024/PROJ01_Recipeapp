@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'card.dart';
+import 'pages/ExploresPage.dart';
+import 'pages/GroceryListPage.dart';
+import 'pages/FavoritePage.dart';
+import 'pages/MealPlanPage.dart';
 
 
 void main() {
@@ -28,20 +31,20 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.yellow[100],
         title: Text(
           'FlavorFit Home',
-          style: _darkGreenTextStyle(),
+          style: darkGreenTextStyle(),
         ),
         actions: [
-          _menuButton(context),
+          menuButton(context),
         ],
       ),
-      body: _backgroundContainer(
+      body: backgroundContainer(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Meals that Fit Your Life, Flavor that Inspires.',
-                style: _mottoTextStyle(),
+                style: mottoTextStyle(),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 50), // Adds spacing
@@ -64,7 +67,7 @@ class HomePage extends StatelessWidget {
               SizedBox(height: 50), // Adds spacing
               Text(
                 'Welcome to the Home Page!',
-                style: _darkGreenTextStyle(),
+                style: darkGreenTextStyle(),
               ),
             ],
           ),
@@ -74,131 +77,19 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ExploreRecipesPage extends StatelessWidget {
-   int index = 0;
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Explore Recipes',
-          style: _darkGreenTextStyle(),
-        ),
-        actions: [
-          _menuButton(context),
-        ],
-      ),
-      body: _backgroundContainer(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2, // Number of columns
-                                        crossAxisSpacing: 10.0,
-                                        mainAxisSpacing: 10.0,
-                                        childAspectRatio: 0.8, // To adjust height vs width ratio
-                                      ),
-                        itemCount: recipes.length,
-                        itemBuilder: (context, index) {
-                          final recipe = recipes[index];
-                          return RecipeCard(
-                         image: recipe["image"]!,
-                         title: recipe["title"]!,
-                          );
-                        },
-                      ),
-                    ),
-            ),
-    );
-        
-   
-  }
-}
 
-class MyGroceryListPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Grocery List',
-          style: _darkGreenTextStyle(),
-        ),
-        actions: [
-          _menuButton(context),
-        ],
-      ),
-      body: _backgroundContainer(
-        child: Center(
-          child: Text(
-            'Here\'s your grocery list.',
-            style: _darkGreenTextStyle(),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-class MyMealPlanPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Meal Plan',
-          style: _darkGreenTextStyle(),
-        ),
-        actions: [
-          _menuButton(context),
-        ],
-      ),
-      body: _backgroundContainer(
-        child: Center(
-          child: Text(
-            'Plan your meals here.',
-            style: _darkGreenTextStyle(),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-class MyFavoriteRecipesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Favorite Recipes',
-          style: _darkGreenTextStyle(),
-        ),
-        actions: [
-          _menuButton(context),
-        ],
-      ),
-      body: _backgroundContainer(
-        child: Center(
-          child: Text(
-            'These are your favorite recipes.',
-            style: _darkGreenTextStyle(),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-PopupMenuButton<String> _menuButton(BuildContext context) {
+PopupMenuButton<String> menuButton(BuildContext context) {
   return PopupMenuButton<String>(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
         "Menu",
-        style: _darkGreenTextStyle(),
+        style: darkGreenTextStyle(),
       ),
     ),
     onSelected: (String result) {
@@ -245,7 +136,7 @@ PopupMenuButton<String> _menuButton(BuildContext context) {
   );
 }
 
-Widget _backgroundContainer({required Widget child}) {
+Widget backgroundContainer({required Widget child}) {
   
   return Container(
     
@@ -259,7 +150,7 @@ Widget _backgroundContainer({required Widget child}) {
   );
 }
 
-TextStyle _darkGreenTextStyle() {
+TextStyle darkGreenTextStyle() {
   return TextStyle(
     color: Colors.green[900], // Dark green color
     fontWeight: FontWeight.bold, // Bold text
@@ -267,7 +158,7 @@ TextStyle _darkGreenTextStyle() {
   );
 }
 
-TextStyle _mottoTextStyle() {
+TextStyle mottoTextStyle() {
   return TextStyle(
     color: Colors.green[900], // Dark green color
     fontWeight: FontWeight.bold, // Bold text
