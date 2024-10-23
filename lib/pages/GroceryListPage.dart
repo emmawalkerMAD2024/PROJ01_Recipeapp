@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 import '/main.dart';
 
-class MyGroceryListPage extends StatelessWidget {
-  final List<String> groceryList; // Accepting the grocery list as a named parameter
+class MyGroceryListPage extends StatefulWidget {
+  final List<String> groceryList;
 
   const MyGroceryListPage({Key? key, required this.groceryList}) : super(key: key);
-  
+
+  @override
+  _MyGroceryListPageState createState() => _MyGroceryListPageState();
+}
+
+class _MyGroceryListPageState extends State<MyGroceryListPage> {
+  late List<bool> _checkedItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkedItems = List<bool>.filled(widget.groceryList.length, false);
+  }
+
+  void _toggleCheckbox(int index) {
+    setState(() {
+      _checkedItems[index] = !_checkedItems[index];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +38,7 @@ class MyGroceryListPage extends StatelessWidget {
         ],
       ),
       body: backgroundContainer(
-        child: groceryList.isEmpty
+        child: widget.groceryList.isEmpty
             ? Center(
                 child: Text(
                   "Your grocery list is empty.",
@@ -27,10 +46,26 @@ class MyGroceryListPage extends StatelessWidget {
                 ),
               )
             : ListView.builder(
-                itemCount: groceryList.length,
+                itemCount: widget.groceryList.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(groceryList[index]),
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Checkbox(
+                        value: _checkedItems[index],
+                        onChanged: (bool? value) {
+                          _toggleCheckbox(index);
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          widget.groceryList[index],
+                          style: TextStyle(
+                            decoration: _checkedItems[index] ? TextDecoration.lineThrough : null,
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),

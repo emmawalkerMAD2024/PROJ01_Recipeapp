@@ -131,7 +131,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
               ),
               SizedBox(height: 16.0),
 
-              // Instructions Section
+    
               Text(
                 "Instructions",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
