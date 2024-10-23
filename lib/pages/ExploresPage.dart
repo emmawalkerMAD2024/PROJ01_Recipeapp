@@ -3,19 +3,12 @@ import '/main.dart';
 import '/card.dart';
 import 'RecipeDetailPage.dart';
 
-
-
-
-
 class ExploreRecipesPage extends StatefulWidget {
   @override
   ExploreRecipesPageState createState() => ExploreRecipesPageState();
 }
 
 class ExploreRecipesPageState extends State<ExploreRecipesPage> {
-
-  
-
   @override
   Widget build(BuildContext context) {
     
@@ -35,17 +28,16 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2, // Number of columns
+                                        crossAxisCount: 2, 
                                         crossAxisSpacing: 10.0,
                                         mainAxisSpacing: 10.0,
-                                        childAspectRatio: 0.8, // To adjust height vs width ratio
+                                        childAspectRatio: 0.8, 
                                       ),
                         itemCount: _filteredRecipes.length,
                         itemBuilder: (context, index) {
                         final recipe = _filteredRecipes[index];
                         return GestureDetector(
                            onTap: () {
-                              // Navigate to RecipeDetailPage when a recipe is clicked
                             Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -65,15 +57,11 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
     );
   }
 
-  
-
-  
-
   Widget _buildDietToggle() {
     return PopupMenuButton<String>(
       onSelected: (String newDiet) {
         setState(() {
-          selectedDiet = newDiet;  // Now setState is accessible here
+          selectedDiet = newDiet;  
         });
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -93,11 +81,7 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
       icon: Icon(Icons.filter_list),
     );
   }
-  
-  
-
 }
-
 
 String selectedDiet = 'all';
 
@@ -107,8 +91,6 @@ String selectedDiet = 'all';
     }
     return recipes.where((recipe) => recipe['diet'] == selectedDiet).toList();
   }
-
-
 
  final List<Map<String, dynamic>> recipes = [
     {

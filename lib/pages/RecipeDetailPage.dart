@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:p1_recipeapp_emmajared/pages/GroceryListPage.dart';
 import '/main.dart';
-import 'GroceryListPage.dart'; // Import the GroceryListPage
 
 class RecipeDetailPage extends StatefulWidget {
   final Map<String, dynamic> recipe;
@@ -14,7 +13,7 @@ class RecipeDetailPage extends StatefulWidget {
 
 class _RecipeDetailPageState extends State<RecipeDetailPage> {
   late List<bool> _checkedIngredients;
-  List<String> _groceryList = []; // List to hold grocery items
+  List<String> _groceryList = []; 
 
   @override
   void initState() {
@@ -47,9 +46,15 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MyGroceryListPage(groceryList: _groceryList), // Correctly passing the grocery list
+        builder: (context) => MyGroceryListPage(groceryList: _groceryList),
       ),
     );
+  }
+
+  void _addToMealPlan() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('${widget.recipe["title"]} added to Meal Plan!'),
+    ));
   }
 
   @override
@@ -83,14 +88,25 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
               ),
               SizedBox(height: 16.0),
 
-              // Recipe Title
-              Text(
-                widget.recipe["title"],
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              // Row for title and planner icon
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.recipe["title"],
+                      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.calendar_today), // Planner icon
+                    onPressed: _addToMealPlan,
+                    tooltip: 'Add to Meal Plan',
+                  ),
+                ],
               ),
               SizedBox(height: 16.0),
 
-              // Ingredients Section
               Text(
                 "Ingredients",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
@@ -131,7 +147,6 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
               ),
               SizedBox(height: 16.0),
 
-    
               Text(
                 "Instructions",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
@@ -139,7 +154,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
               SizedBox(height: 8.0),
               Text(
                 widget.recipe["instructions"],
-                style: TextStyle(fontSize: 16.0),
+                style: TextStyle(fontSize: 16.0), 
               ),
             ],
           ),
