@@ -47,7 +47,7 @@ class MyMealPlanPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: _hoveredIndex == index ? Colors.blue : Colors.black, // Change color on hover
+                            color: _hoveredIndex == index ? Colors.blue : Colors.black, 
                           ),
                         ),
                       ),

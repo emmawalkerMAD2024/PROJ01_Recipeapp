@@ -74,92 +74,94 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
         ],
       ),
       body: backgroundContainer(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Recipe Image
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: Image.asset(
-                  widget.recipe["image"],
-                  width: double.infinity,
-                  height: 250.0,
-                  fit: BoxFit.cover,
+        child: SingleChildScrollView( // Wrap the content in a SingleChildScrollView
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Recipe Image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Image.asset(
+                    widget.recipe["image"],
+                    width: double.infinity,
+                    height: 250.0,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
 
-              // Row for title and planner icon
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.recipe["title"],
-                      style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.calendar_today), // Planner icon
-                    onPressed: _addToMealPlan,
-                    tooltip: 'Add to Meal Plan',
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.0),
-
-              Text(
-                "Ingredients",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: widget.recipe["ingredients"].length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Checkbox(
-                        value: _checkedIngredients[index],
-                        onChanged: (bool? value) {
-                          _toggleCheckbox(index);
-                        },
+                // Row for title and planner icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.recipe["title"],
+                        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
-                      Expanded(
-                        child: Text(
-                          widget.recipe["ingredients"][index],
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            decoration: _checkedIngredients[index] ? TextDecoration.lineThrough : null,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.calendar_today), // Planner icon
+                      onPressed: _addToMealPlan,
+                      tooltip: 'Add to Meal Plan',
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+
+                Text(
+                  "Ingredients",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8.0),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: widget.recipe["ingredients"].length,
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Checkbox(
+                          value: _checkedIngredients[index],
+                          onChanged: (bool? value) {
+                            _toggleCheckbox(index);
+                          },
+                        ),
+                        Expanded(
+                          child: Text(
+                            widget.recipe["ingredients"][index],
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              decoration: _checkedIngredients[index] ? TextDecoration.lineThrough : null,
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add_shopping_cart),
-                        onPressed: () {
-                          _addToGroceryList(widget.recipe["ingredients"][index]);
-                        },
-                        tooltip: 'Add to Grocery List',
-                      ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 16.0),
+                        IconButton(
+                          icon: Icon(Icons.add_shopping_cart),
+                          onPressed: () {
+                            _addToGroceryList(widget.recipe["ingredients"][index]);
+                          },
+                          tooltip: 'Add to Grocery List',
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 16.0),
 
-              Text(
-                "Instructions",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                widget.recipe["instructions"],
-                style: TextStyle(fontSize: 16.0), 
-              ),
-            ],
+                Text(
+                  "Instructions",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  widget.recipe["instructions"],
+                  style: TextStyle(fontSize: 16.0), 
+                ),
+              ],
+            ),
           ),
         ),
       ),
