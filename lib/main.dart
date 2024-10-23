@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                 style: mottoTextStyle(),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50), // Adds spacing
+              SizedBox(height: 50), 
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -56,15 +56,15 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50), // Button size
-                  backgroundColor: Colors.green, // Button color
-                  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Text style
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 50), 
+                  backgroundColor: Colors.green, 
+                  textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), 
                 ),
                 child: Text(
                   'Start Exploring our FlavorFit Recipes!', style: TextStyle(fontSize: 28, color: Colors.white)
                 ),
               ),
-              SizedBox(height: 50), // Adds spacing
+              SizedBox(height: 50), 
               Text(
                 'Welcome to the Home Page!',
                 style: darkGreenTextStyle(),
@@ -101,7 +101,7 @@ PopupMenuButton<String> menuButton(BuildContext context) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ExploreRecipesPage()));
           break;
         case 'My Grocery List':
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyGroceryListPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MyGroceryListPage(groceryList: [],)));
           break;
         case 'My Meal Plan':
           Navigator.push(context, MaterialPageRoute(builder: (context) => MyMealPlanPage()));
@@ -152,18 +152,18 @@ Widget backgroundContainer({required Widget child}) {
 
 TextStyle darkGreenTextStyle() {
   return TextStyle(
-    color: Colors.green[900], // Dark green color
-    fontWeight: FontWeight.bold, // Bold text
+    color: Colors.green[900], 
+    fontWeight: FontWeight.bold, 
     fontSize: 24,
   );
 }
 
 TextStyle mottoTextStyle() {
   return TextStyle(
-    color: Colors.green[900], // Dark green color
-    fontWeight: FontWeight.bold, // Bold text
-    fontStyle: FontStyle.italic, // Italics
-    fontSize: 44, // Large size for motto
+    color: Colors.green[900], 
+    fontWeight: FontWeight.bold, 
+    fontStyle: FontStyle.italic,
+    fontSize: 44, 
   );
 }
 

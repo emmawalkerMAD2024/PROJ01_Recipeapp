@@ -17,7 +17,7 @@ class MyFavoriteRecipesPage extends StatelessWidget {
       body: backgroundContainer(
         child: Center(
           child: Text(
-            'These are your favorite recipes.',
+            "To add a recipe to your Favorite Recipes list, click the 'Add to Favorites' icon on the recipe you'd like to add.",
             style: darkGreenTextStyle(),
           ),
         ),

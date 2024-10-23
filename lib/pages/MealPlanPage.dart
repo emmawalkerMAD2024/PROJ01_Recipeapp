@@ -17,7 +17,7 @@ class MyMealPlanPage extends StatelessWidget {
       body: backgroundContainer(
         child: Center(
           child: Text(
-            'Plan your meals here.',
+            "To add a recipe to your Meal Plan, click the 'Add to Meal Plan' icon on the recipe you'd like to add.",
             style: darkGreenTextStyle(),
           ),
         ),
