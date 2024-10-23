@@ -52,6 +52,9 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   }
 
   void _addToMealPlan() {
+    final mealPlan = MealPlan();
+    mealPlan.recipes.add(widget.recipe); // Add the recipe to the meal plan
+
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('${widget.recipe["title"]} added to Meal Plan!'),
     ));

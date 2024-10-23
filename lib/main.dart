@@ -167,5 +167,11 @@ TextStyle mottoTextStyle() {
   );
 }
 
+class MealPlan {
+  static final MealPlan _instance = MealPlan._internal();
+  factory MealPlan() => _instance;
 
- 
+  List<Map<String, dynamic>> recipes = [];
+
+  MealPlan._internal(); // Private constructor
+}
