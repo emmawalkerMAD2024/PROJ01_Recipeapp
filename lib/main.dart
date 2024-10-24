@@ -107,7 +107,7 @@ PopupMenuButton<String> menuButton(BuildContext context) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => MyMealPlanPage()));
           break;
         case 'My Favorite Recipes':
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavoriteRecipesPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MyFavoriteRecipesPage(favoriteRecipes: [],)));
           break;
       }
     },
@@ -175,3 +175,6 @@ class MealPlan {
 
   MealPlan._internal(); // Private constructor
 }
+
+// Store a list of favorite recipes
+  List<Map<String, dynamic>> favoriteRecipes = [];

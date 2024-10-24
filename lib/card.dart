@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
  class RecipeCard extends StatelessWidget {
-  final String image;
-  final String title;
+  
+   final Map<String, dynamic> recipe;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
 
-
-  const RecipeCard({required this.image, required this.title});
+  const RecipeCard({
+    required this.recipe,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +26,32 @@ import 'package:flutter/material.dart';
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
               child: Image.asset(
-                image,
+                recipe["image"],
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.green[900]),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                     recipe["title"],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.green[900]),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : null,
+                  ),
+                  onPressed: onFavoriteToggle,
+                ),
+              ],
             ),
+            
           ),
         ],
       ),
