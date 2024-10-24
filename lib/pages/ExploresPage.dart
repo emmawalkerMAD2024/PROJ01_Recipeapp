@@ -58,53 +58,62 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
   }
 
   Widget _buildDietToggle() {
-    return PopupMenuButton<String>(
-      onSelected: (String newDiet) {
-        setState(() {
-          selectedDiet = newDiet;  
-        });
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        const PopupMenuItem<String>(
-          value: 'all',
-          child: Text('All Recipes'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'vegetarian',
-          child: Text('Vegetarian'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'vegan',
-          child: Text('Vegan'),
-        ),const PopupMenuItem<String>(
-          value: 'gluten-free',
-          child: Text('Gluten Free'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'nut-free',
-          child: Text('Nut Free'),
-        ),
-      ],
+    return PopupMenuButton(
       icon: Icon(Icons.filter_list),
+      itemBuilder: (BuildContext context) {
+        return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: dietFilters.keys.map((dietOption) {
+                return CheckboxListTile(
+                  title: Text(dietOption),
+                  value: dietFilters[dietOption],
+                  onChanged: (bool? value) {
+                    setState(() {
+                      dietFilters[dietOption] = value!;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        ];
+      },
     );
   }
-}
+  }
 
-String selectedDiet = 'all';
+
+
+ Map<String, bool> dietFilters = {
+    'vegetarian': false,
+    'non-vegetarian': false,
+    'gluten-free': false,
+    'nut-free':false
+  };
 
  List<Map<String, dynamic>> get _filteredRecipes {
-    if (selectedDiet == 'all') {
+      // If no filter is selected, return all recipes
+    if (dietFilters.values.every((selected) => !selected)) {
       return recipes;
     }
-    return recipes.where((recipe) => recipe['diet'] == selectedDiet).toList();
+
+    // Return recipes that match any of the selected diets
+    return recipes.where((recipe) {
+      // Check if the recipe has any of the selected diet options
+      return dietFilters.entries.any((filter) =>
+          filter.value == true && recipe['diet'].contains(filter.key));
+    }).toList();
   }
 
  final List<Map<String, dynamic>> recipes = [
     {
       "image": "assets/aspaghetti.png",
       "title": "Spaghetti Bolognese",
+      "ingredients": ["1 tbsp Olive Oil", "1 Onion, Diced", "2 Carrots, Diced", "2 Celery Stalks, Diced", "2 to 3 Cloves Garlic", "5 Leaves Fresh Basil (or 2 tsp Dried Basil)","14 oz Canned Diced Tomatoes", "17 oz Crushed Tomatoes", "1 c Water", "2 tsp Dried Oregano", "1 lb Ground Beef, Extra Lean", "Salt and Pepper to Taste", "1 lb Spaghetti", "Freshly Grated Parmesean Cheese"],
       "instructions": "1. In a large and deep frying pan or a Dutch Oven heat 1 tbsp of olive oil, then add diced onions, carrots, celery, minced garlic and cook on low heat for 10 minutes without colouring the vegetables. \n2. Then add ground beef and brown it until the beef is no longer pink inside while stirring the whole time and making sure to break up the beef. Pour in both types of canned tomatoes and water with a pinch of salt and pepper.\n3. Sprinkle in some dried oregano and torn basil leaves (reserve a few small ones), bring everything to a boil. Then turn the heat down and let it simmer with a lid ajar for for 2.5-3 hours stirring it once in a while.\n4. When your Bolognese is nearly done, boil a large pot of water and cook spaghetti according to package directions. \n5. Drain your spaghetti and add your pasta to the sauce, stir gently and take off the heat. Top with reserved basil leaves. Serve with freshly grated Parmesan cheese.",
-      "diet": ["all", "nut-free"]
+      "diet": ["nut-free"]
     },
     {
       "image": "assets/agrilledchicken.png",
