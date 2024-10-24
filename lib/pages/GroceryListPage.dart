@@ -41,7 +41,7 @@ class _MyGroceryListPageState extends State<MyGroceryListPage> {
         child: widget.groceryList.isEmpty
             ? Center(
                 child: Text(
-                  "Your grocery list is empty.",
+                  "Your grocery list is empty. To add to your grocery list, navigate to the desired recipe, and click the 'Add to Grocery List' shopping cart icon next to the desired ingredient.",
                   style: darkGreenTextStyle(),
                 ),
               )

@@ -103,7 +103,6 @@ String selectedDiet = 'all';
     {
       "image": "assets/aspaghetti.png",
       "title": "Spaghetti Bolognese",
-      "ingredients": ["1 tbsp Olive Oil", "1 Onion, Diced", "2 Carrots, Diced", "2 Celery Stalks, Diced", "2 to 3 Cloves Garlic", "5 Leaves Fresh Basil (or 2 tsp Dried Basil)","14 oz Canned Diced Tomatoes", "17 oz Crushed Tomatoes", "1 c Water", "2 tsp Dried Oregano", "1 lb Ground Beef, Extra Lean", "Salt and Pepper to Taste", "1 lb Spaghetti", "Freshly Grated Parmesean Cheese"],
       "instructions": "1. In a large and deep frying pan or a Dutch Oven heat 1 tbsp of olive oil, then add diced onions, carrots, celery, minced garlic and cook on low heat for 10 minutes without colouring the vegetables. \n2. Then add ground beef and brown it until the beef is no longer pink inside while stirring the whole time and making sure to break up the beef. Pour in both types of canned tomatoes and water with a pinch of salt and pepper.\n3. Sprinkle in some dried oregano and torn basil leaves (reserve a few small ones), bring everything to a boil. Then turn the heat down and let it simmer with a lid ajar for for 2.5-3 hours stirring it once in a while.\n4. When your Bolognese is nearly done, boil a large pot of water and cook spaghetti according to package directions. \n5. Drain your spaghetti and add your pasta to the sauce, stir gently and take off the heat. Top with reserved basil leaves. Serve with freshly grated Parmesan cheese.",
       "diet": ["all", "nut-free"]
     },
