@@ -136,7 +136,7 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
 
  Map<String, bool> dietFilters = {
     'vegetarian': false,
-    'non-vegetarian': false,
+    'vegan': false,
     'gluten-free': false,
     'nut-free':false
   };
@@ -146,16 +146,16 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
   }
 
  List<Map<String, dynamic>> get _filteredRecipes {
-    if (dietFilters.values.every((selected) => !selected)) {
-      return recipes;
-    }
-
-    return recipes.where((recipe) {
-      return dietFilters.entries.any((filter) =>
-          filter.value == true && recipe['diet'].contains(filter.key));
-    }).toList();
+  if (dietFilters.values.every((selected) => !selected)) {
+    return recipes;
   }
 
+  return recipes.where((recipe) {
+    return dietFilters.entries
+        .where((filter) => filter.value) 
+        .every((filter) => recipe['diet'].contains(filter.key));
+  }).toList();
+}
 
  final List<Map<String, dynamic>> recipes = [
     {
