@@ -25,7 +25,6 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {
-              // Navigate to the Favorites page
               Navigator.push(
                 context,
                 MaterialPageRoute(

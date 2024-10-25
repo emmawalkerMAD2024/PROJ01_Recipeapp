@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/main.dart';
-import 'RecipeDetailPage.dart'; 
 
 class MyMealPlanPage extends StatefulWidget {
   @override

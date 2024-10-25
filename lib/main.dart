@@ -4,7 +4,6 @@ import 'pages/GroceryListPage.dart';
 import 'pages/FavoritePage.dart';
 import 'pages/MealPlanPage.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -61,12 +60,12 @@ class HomePage extends StatelessWidget {
                   textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), 
                 ),
                 child: Text(
-                  'Start Exploring our FlavorFit Recipes!', style: TextStyle(fontSize: 28, color: Colors.white)
+                  'Explore our FlavorFit Recipes!', style: TextStyle(fontSize: 28, color: Colors.white)
                 ),
               ),
               SizedBox(height: 50), 
               Text(
-                'Welcome to the Home Page!',
+                'Welcome to the FlavorFit Home Page!',
                 style: darkGreenTextStyle(),
               ),
             ],
@@ -76,12 +75,6 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
 
 PopupMenuButton<String> menuButton(BuildContext context) {
   return PopupMenuButton<String>(
@@ -173,8 +166,7 @@ class MealPlan {
 
   List<Map<String, dynamic>> recipes = [];
 
-  MealPlan._internal(); // Private constructor
+  MealPlan._internal(); 
 }
 
-// Store a list of favorite recipes
   List<Map<String, dynamic>> favoriteRecipes = [];

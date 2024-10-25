@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/main.dart';
-import 'FavoritePage.dart';
 import '/card.dart';
 
 class MyFavoriteRecipesPage extends StatelessWidget {
@@ -41,7 +40,6 @@ class MyFavoriteRecipesPage extends StatelessWidget {
                     recipe: recipe,
                     isFavorite: true,
                     onFavoriteToggle: () {
-                      // No need to toggle on the Favorites page itself
                     },
                   );
                 }
