@@ -54,7 +54,13 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
                             Navigator.push(
                             context,
                             MaterialPageRoute(
-                             builder: (context) => RecipeDetailPage(recipe: recipe),
+                             builder: (context) => RecipeDetailPage(
+                              recipe: recipe,
+                              isFavorite: isFavorite(recipe),
+                              onFavoriteToggle: () => toggleFavorite(recipe)
+                              
+                              
+                              ),
                                     ),
                                   );
                                 },

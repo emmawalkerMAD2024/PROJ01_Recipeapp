@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:p1_recipeapp_emmajared/pages/ExploresPage.dart';
 import 'package:p1_recipeapp_emmajared/pages/GroceryListPage.dart';
 import '/main.dart';
 
 class RecipeDetailPage extends StatefulWidget {
-  final Map<String, dynamic> recipe;
 
-  const RecipeDetailPage({required this.recipe});
+  final Map<String, dynamic> recipe;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
+
+   const RecipeDetailPage({
+    required this.recipe,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
+  });
 
   @override
-  _RecipeDetailPageState createState() => _RecipeDetailPageState();
+  RecipeDetailPageState createState() => RecipeDetailPageState();
 }
 
-class _RecipeDetailPageState extends State<RecipeDetailPage> {
+class RecipeDetailPageState extends State<RecipeDetailPage> {
   late List<bool> _checkedIngredients;
-  List<String> _groceryList = []; 
+  List<String> _groceryList = [];
+  late bool _isFavorite;
+   
+
+
+
 
   @override
   void initState() {
     super.initState();
     _checkedIngredients = List<bool>.filled(widget.recipe["ingredients"].length, false);
+    _isFavorite = widget.isFavorite;
+  }
+
+   // Toggle the favorite status and call the callback to update global favorites
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite; // Update local favorite state
+    });
+    widget.onFavoriteToggle(); // Call the passed callback to update the global favorite list
   }
 
   void _toggleCheckbox(int index) {
@@ -70,6 +92,13 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             icon: Icon(Icons.list),
             onPressed: _viewGroceryList,
             tooltip: 'View Grocery List',
+          ),
+           IconButton(
+            icon: Icon(
+              _isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: _isFavorite ? Colors.red : null,
+            ),
+            onPressed: _toggleFavorite, // Toggle favorite status when clicked
           ),
         ],
       ),
