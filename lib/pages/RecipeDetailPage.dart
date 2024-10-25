@@ -3,22 +3,38 @@ import 'package:p1_recipeapp_emmajared/pages/GroceryListPage.dart';
 import '/main.dart';
 
 class RecipeDetailPage extends StatefulWidget {
-  final Map<String, dynamic> recipe;
 
-  const RecipeDetailPage({required this.recipe});
+  final Map<String, dynamic> recipe;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
+
+   const RecipeDetailPage({
+    required this.recipe,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
+  });
 
   @override
-  _RecipeDetailPageState createState() => _RecipeDetailPageState();
+  RecipeDetailPageState createState() => RecipeDetailPageState();
 }
 
-class _RecipeDetailPageState extends State<RecipeDetailPage> {
+class RecipeDetailPageState extends State<RecipeDetailPage> {
   late List<bool> _checkedIngredients;
-  List<String> _groceryList = []; 
+  List<String> _groceryList = [];
+  late bool _isFavorite;
 
   @override
   void initState() {
     super.initState();
     _checkedIngredients = List<bool>.filled(widget.recipe["ingredients"].length, false);
+    _isFavorite = widget.isFavorite;
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite; 
+    });
+    widget.onFavoriteToggle();
   }
 
   void _toggleCheckbox(int index) {
@@ -53,7 +69,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
 
   void _addToMealPlan() {
     final mealPlan = MealPlan();
-    mealPlan.recipes.add(widget.recipe); // Add the recipe to the meal plan
+    mealPlan.recipes.add(widget.recipe); 
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('${widget.recipe["title"]} added to Meal Plan!'),
@@ -71,10 +87,17 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
             onPressed: _viewGroceryList,
             tooltip: 'View Grocery List',
           ),
+           IconButton(
+            icon: Icon(
+              _isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: _isFavorite ? Colors.red : null,
+            ),
+            onPressed: _toggleFavorite, 
+          ),
         ],
       ),
       body: backgroundContainer(
-        child: SingleChildScrollView( // Wrap the content in a SingleChildScrollView
+        child: SingleChildScrollView( 
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -92,7 +115,6 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                 ),
                 SizedBox(height: 16.0),
 
-                // Row for title and planner icon
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,7 +125,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.calendar_today), // Planner icon
+                      icon: Icon(Icons.calendar_today), 
                       onPressed: _addToMealPlan,
                       tooltip: 'Add to Meal Plan',
                     ),

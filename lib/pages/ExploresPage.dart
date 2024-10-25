@@ -10,16 +10,9 @@ class ExploreRecipesPage extends StatefulWidget {
 }
 
 class ExploreRecipesPageState extends State<ExploreRecipesPage> {
-  // Define dietFilters within the state class
-  Map<String, bool> dietFilters = {
-    'vegetarian': false,
-    'gluten-free': false,
-    'nut-free': false,
-    'vegan': false,
-  };
-
   @override
   Widget build(BuildContext context) {
+      
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,10 +21,11 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
         ),
         actions: [
           menuButton(context),
-          _buildDietToggle(), // Filter button
+          _buildDietToggle(),
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {
+              // Navigate to the Favorites page
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -43,37 +37,43 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
         ],
       ),
       body: backgroundContainer(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: _filteredRecipes.length,
-            itemBuilder: (context, index) {
-              final recipe = _filteredRecipes[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeDetailPage(recipe: recipe),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2, 
+                                        crossAxisSpacing: 10.0,
+                                        mainAxisSpacing: 10.0,
+                                        childAspectRatio: 0.8, 
+                                      ),
+                        itemCount: _filteredRecipes.length,
+                        itemBuilder: (context, index) {
+                        final recipe = _filteredRecipes[index];
+                        return GestureDetector(
+                           onTap: () {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                             builder: (context) => RecipeDetailPage(
+                              recipe: recipe,
+                              isFavorite: isFavorite(recipe),
+                              onFavoriteToggle: () => toggleFavorite(recipe)
+                              
+                              
+                              ),
+                                    ),
+                                  );
+                                },
+                                child: RecipeCard(
+                                  recipe: recipe,
+                                  isFavorite: isFavorite(recipe),
+                                  onFavoriteToggle: () => toggleFavorite(recipe),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-                child: RecipeCard(
-                  recipe: recipe,
-                  isFavorite: isFavorite(recipe),
-                  onFavoriteToggle: () => toggleFavorite(recipe),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -83,25 +83,19 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: dietFilters.keys.map((dietOption) {
-                    return CheckboxListTile(
-                      title: Text(dietOption),
-                      value: dietFilters[dietOption],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          dietFilters[dietOption] = value!;
-                        });
-                        // To reflect changes in the filtered list
-                        this.setState(() {});
-                      },
-                    );
-                  }).toList(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: dietFilters.keys.map((dietOption) {
+                return CheckboxListTile(
+                  title: Text(dietOption),
+                  value: dietFilters[dietOption],
+                  onChanged: (bool? value) {
+                    setState(() {
+                      dietFilters[dietOption] = value!;
+                    });
+                  },
                 );
-              },
+              }).toList(),
             ),
           ),
         ];
@@ -118,12 +112,20 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
       }
     });
   }
+  }
+
+ Map<String, bool> dietFilters = {
+    'vegetarian': false,
+    'non-vegetarian': false,
+    'gluten-free': false,
+    'nut-free':false
+  };
 
   bool isFavorite(Map<String, dynamic> recipe) {
     return favoriteRecipes.contains(recipe);
   }
 
-  List<Map<String, dynamic>> get _filteredRecipes {
+ List<Map<String, dynamic>> get _filteredRecipes {
     if (dietFilters.values.every((selected) => !selected)) {
       return recipes;
     }
@@ -133,7 +135,6 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
           filter.value == true && recipe['diet'].contains(filter.key));
     }).toList();
   }
-}
 
 
  final List<Map<String, dynamic>> recipes = [
