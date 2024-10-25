@@ -10,9 +10,16 @@ class ExploreRecipesPage extends StatefulWidget {
 }
 
 class ExploreRecipesPageState extends State<ExploreRecipesPage> {
+  // Define dietFilters within the state class
+  Map<String, bool> dietFilters = {
+    'vegetarian': false,
+    'gluten-free': false,
+    'nut-free': false,
+    'vegan': false,
+  };
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -21,11 +28,10 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
         ),
         actions: [
           menuButton(context),
-          _buildDietToggle(),
+          _buildDietToggle(), // Filter button
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {
-              // Navigate to the Favorites page
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -37,37 +43,37 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
         ],
       ),
       body: backgroundContainer(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2, 
-                                        crossAxisSpacing: 10.0,
-                                        mainAxisSpacing: 10.0,
-                                        childAspectRatio: 0.8, 
-                                      ),
-                        itemCount: _filteredRecipes.length,
-                        itemBuilder: (context, index) {
-                        final recipe = _filteredRecipes[index];
-                        return GestureDetector(
-                           onTap: () {
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                             builder: (context) => RecipeDetailPage(recipe: recipe),
-                                    ),
-                                  );
-                                },
-                                child: RecipeCard(
-                                  recipe: recipe,
-                                  isFavorite: isFavorite(recipe),
-                                  onFavoriteToggle: () => toggleFavorite(recipe),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+              childAspectRatio: 0.8,
             ),
+            itemCount: _filteredRecipes.length,
+            itemBuilder: (context, index) {
+              final recipe = _filteredRecipes[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeDetailPage(recipe: recipe),
+                    ),
+                  );
+                },
+                child: RecipeCard(
+                  recipe: recipe,
+                  isFavorite: isFavorite(recipe),
+                  onFavoriteToggle: () => toggleFavorite(recipe),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 
@@ -77,19 +83,25 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: dietFilters.keys.map((dietOption) {
-                return CheckboxListTile(
-                  title: Text(dietOption),
-                  value: dietFilters[dietOption],
-                  onChanged: (bool? value) {
-                    setState(() {
-                      dietFilters[dietOption] = value!;
-                    });
-                  },
+            child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: dietFilters.keys.map((dietOption) {
+                    return CheckboxListTile(
+                      title: Text(dietOption),
+                      value: dietFilters[dietOption],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          dietFilters[dietOption] = value!;
+                        });
+                        // To reflect changes in the filtered list
+                        this.setState(() {});
+                      },
+                    );
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
           ),
         ];
@@ -97,7 +109,6 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
     );
   }
 
-   // Toggle favorite status
   void toggleFavorite(Map<String, dynamic> recipe) {
     setState(() {
       if (isFavorite(recipe)) {
@@ -108,40 +119,22 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
     });
   }
 
-  }
-
-
-
- Map<String, bool> dietFilters = {
-    'vegetarian': false,
-    'non-vegetarian': false,
-    'gluten-free': false,
-    'nut-free':false
-  };
-
-
-  
-
-   // Check if a recipe is in favorites
   bool isFavorite(Map<String, dynamic> recipe) {
     return favoriteRecipes.contains(recipe);
   }
 
-  
-
- List<Map<String, dynamic>> get _filteredRecipes {
-      // If no filter is selected, return all recipes
+  List<Map<String, dynamic>> get _filteredRecipes {
     if (dietFilters.values.every((selected) => !selected)) {
       return recipes;
     }
 
-    // Return recipes that match any of the selected diets
     return recipes.where((recipe) {
-      // Check if the recipe has any of the selected diet options
       return dietFilters.entries.any((filter) =>
           filter.value == true && recipe['diet'].contains(filter.key));
     }).toList();
   }
+}
+
 
  final List<Map<String, dynamic>> recipes = [
     {
@@ -177,7 +170,42 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
       "title": "Sweet Potato Salad",
       "ingredients": ["2 medium sweet potatoes, peeled and chopped into 1/2-inch cubes (about 2 cups, 20 ounces total)", "4 tbsp Extra Virgin Olive Oil", "1 tsp Sweet Paprika", "1 tsp Garlic Powder", "1/2 tsp Kosher Salt", "Black Pepper, to Taste", "1/4 c Red Onion, Diced", "4 c Baby Arugula", "4 oz Hass Avocado, Cubed", "1.5 tbsp Apple Cider Vinegar", "1 tsp Agave", "1 tsp Cumin"],
       "instructions": "1. Preheat the oven to 400F.\n2. Place the sweet potato cubes on a baking sheet. Drizzle with the olive oil and toss. In a small bowl, stir together the paprika, garlic powder, 1/2 teaspoon salt and black pepper.\n3. Sprinkle the spice mixture over the potatoes and toss to combine. Bake 13-15 minutes, toss then bake for additional 13-15 minutes, or until tender.\n4. While the sweet potato is cooking, mix the salad dressing together in a large bowl and add the onions.\n5. Remove the roasted sweet potatoes from the oven and while still hot, toss them into the large bowl with the salad dressing, then let them cool at least 5 minutes.\n6. Once cool, add the arugula, 1 teaspoon olive oil and 1/8 teaspoon salt and toss well.\n7. Divide 4 bowls, adjust salt and pepper to taste then top with 1 ounce avocado in each bowl.",
-      "diet": ["nut-free", "vegetarian", "gluten-free"]
+      "diet": ["nut-free", "vegetarian", "gluten-free", "vegan"]
+    },
+    {
+      "image": "assets/apearsalad.png",
+      "title": "Autumn Salad",
+      "ingredients": ["2 tbsp Red Wine Vinegar", "1/2 Dijon Mustard", "1 tsp Honey", "1/4 Salt", "Ground Black Pepper to Taste", "3 tbsp Olive Oil", "2 Small Ripe Pears, Peeled and Diced", "2 oz Gorgonzola Cheese, Crumbled", "8 oz Mixed Baby Greens (Baby Spinach, Arugula, Radicchio, etc.)", "1 oz Pecan Halves"],
+      "instructions": "1. In a small bowl, mix vinegar, mustard, honey, salt and pepper. Whisk in olive oil and blend.\n2. In a salad bowl combine baby greens, pears, gorgonzola cheese and pecans.\n3. When you are ready to serve, add the vinaigrette and toss well. Serve immediately.",
+      "diet": ["vegetarian", "gluten-free", "vegan"]
+    },
+    {
+      "image": "assets/awatermelongranita.png",
+      "title": "Watermelon Cucumber Granita",
+      "ingredients": ["4.5 c Seedless Watermelon, Peeled and Cubed", "1.5 c Cucumbers, Peeled, Seeded, and Chopped", "1/4 c Monk Fruit Sweetener", "1 tbsp Fresh Lime Juice", "Thin Cucumber Slices, for Garnish"],
+      "instructions": "1. In a food processor or blender, puree the watermelon, cucumber, sugar, and lime juice until completely smooth. Pour the mixture into a 9 x 9-inch metal baking pan.\n2. Freeze for about 1 1/2 hours until it’s nearly set, then using a fork, give it a good scrape to mix everything around and break up any chunks. Return the pan to the freezer and freeze until almost set again, 1 to 2 hours.\n3. Use a fork to scrape the granita to form chunky snow-like ice crystals. Freeze and repeat occasional scraping until the entire mixture is frozen and shaved, about 5 hours total.\n4. To serve, divide the granita among serving glasses, and garnish with cucumber if desired.",
+      "diet": ["vegetarian", "gluten-free", "vegan"]
+    },
+    {
+      "image": "assets/ahoneyham.png",
+      "title": "Honey Baked Spiral Ham",
+      "ingredients": ["6 to 8 lbs Fully Cooked Spiral Bone-In Ham", "1/3 c Pineapple Juice", "Juice of 1/2 Orange", "2 tsp Dijon Mustard", "1/4 c Honey", "1 tbsp Brown Sugar"],
+      "instructions": "1. Preheat oven to 275F.\n2. Place the spiral ham in a roasting pan, cut side down. Cover tightly with foil to prevent the ham from drying out.\n3. Bake ham in oven at 275F 12-15 minutes per pound, depending on the size of your ham. (Approximately 2 hours)\n4. In a small sauce pan combine brown sugar, honey, orange juice, pineapple juice and dijon. Whisk well and simmer on low 8 to 10 minutes, stirring often until it reduces down and thickens into a glaze.\n5. Remove the ham from oven 15 minutes before the ham is ready and brush the glaze onto the ham.\n6. Finish cooking the ham uncovered for the last 15 minutes.",
+      "diet": ["gluten-free", "nut-free"]
+    },
+    {
+      "image": "assets/asalmon.png",
+      "title": "Slow Roasted Salmon",
+      "ingredients": ["1 2-lb Whole Wild Salmon Filet, with Skin", "1/3 c Light Sour Cream", "2 tbsp Dijon Mustard, to Taste", "2 tbsp Fresh Dill, Finely Chopped", "1 tbsp Drained Capers, Finely Chopped, Plus 1 tbsp of Brine", "1 tsp Kosher Salt", "1/4 tsp Ground Black Pepper", "1 Lemon"],
+      "instructions": "1. Preheat oven to 275ºF. Line rimmed baking sheet with parchment paper for easiest cleanup. Remove the salmon from the refrigerator to take some of the chill off.\n2. In a small bowl, combine the sour cream, 2 tablespoons of mustard, the dill, capers, caper brine, salt, and pepper. Zest half of the lemon into to the bowl, then cut it in half and squeeze in the juice from half. Mix to combine. The sauce should be thick but drizzle-able; if it’s too thick, add water a small splash at a time until it thins out (or more lemon juice if you like).\n3. Place the salmon, skin side down, onto lined baking sheet. Pat it dry with a paper towel. Spread a heaping spoonful (about 3 tablespoons) of the mustard sauce in a thin layer all over the salmon.\n4. Roast the salmon until it is just barely cooked through, still incredibly moist, and flakes easily with a fork when you remove it (135ºF when checked with an instant read thermometer), 35 to 50 minutes depending on the shape of your salmon.\n5. Let the salmon rest for 5 minutes, during which time it will come up another 5F.\n6. Drizzle the remaining sauce over the salmon or pass it on the side, garnish with the fresh dill sprigs, then serve.",
+      "diet": ["gluten-free", "nut-free"]
+    },
+    {
+      "image": "assets/akabob.png",
+      "title": "Veggie Kabobs",
+      "ingredients": ["2 Large Ears Corn, Shucked and Peeled", "1.5 Medium Red Onions, Cut into 6 Wedges", "1 Yellow Bell Pepper, Cut into 12 1-Inch Pieces", "1 Red Bell Pepper, Cut into 12 1-Inch Pieces", "1 Zucchini, Sliced into 12 Slices", "12 Cherry/Grape Tomatoes", "Olive Oil Spray", "3/4 tsp Kosher Salt", "3 tbsp BBQ Sauce", "1 tbsp Water"],
+      "instructions": "1. If using wooden skewers, soak about 1 hour.\n2. Cut small ends off corn and cut each into 6 pieces, to give you 12 total.\n3. Arrange the skewers, alternating each veggie so you have 2 pieces of each vegetable on each skewer. Spritz all over with olive oil and season with salt.\n4. Preheat the grill to medium-high heat.\n5. Combine BBQ sauce and water in a small bowl.\n6. Place kabobs on the grill and cook, turning often until the vegetables are slightly charred and tender, about 10 minutes.\n7. Brush the bbq sauce on the veggies, the last minute of cooking, and turn once again.",
+      "diet": ["gluten-free", "nut-free"]
     },
     // Add more recipes as needed
   ];

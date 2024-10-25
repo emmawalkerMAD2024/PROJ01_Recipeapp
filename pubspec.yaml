@@ -68,6 +68,12 @@ flutter:
   - "assets/aspaghetti.png"
   - "assets/agrilledchicken.png"
   - "assets/acreamysoup.png"
+  - "assets/ahoneyham.png"
+  - "assets/awatermelongranita.png"
+  - "assets/apearsalad.png"
+  - "assets/asalmon.png"
+  - "assets/akabob.png"
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
