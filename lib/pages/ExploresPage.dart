@@ -78,31 +78,51 @@ class ExploreRecipesPageState extends State<ExploreRecipesPage> {
   }
 
   Widget _buildDietToggle() {
-    return PopupMenuButton(
-      icon: Icon(Icons.filter_list),
-      itemBuilder: (BuildContext context) {
-        return <PopupMenuEntry>[
-          PopupMenuItem(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: dietFilters.keys.map((dietOption) {
-                return CheckboxListTile(
-                  title: Text(dietOption),
-                  value: dietFilters[dietOption],
-                  onChanged: (bool? value) {
-                    setState(() {
-                      dietFilters[dietOption] = value!;
-                    });
-                  },
-                );
-              }).toList(),
-            ),
+  return PopupMenuButton(
+    icon: Icon(Icons.filter_list),
+    itemBuilder: (BuildContext context) {
+      return <PopupMenuEntry>[
+        PopupMenuItem(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: dietFilters.keys.map((dietOption) {
+              return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return AnimatedCrossFade(
+                    duration: Duration(milliseconds: 250),
+                    firstChild: CheckboxListTile(
+                      title: Text(dietOption),
+                      value: dietFilters[dietOption],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          dietFilters[dietOption] = value!;
+                        });
+                        this.setState(() {}); 
+                      },
+                    ),
+                    secondChild: CheckboxListTile(
+                      title: Text(dietOption),
+                      value: dietFilters[dietOption],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          dietFilters[dietOption] = value!;
+                        });
+                        this.setState(() {}); 
+                      },
+                    ),
+                    crossFadeState: dietFilters[dietOption]!
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                  );
+                },
+              );
+            }).toList(),
           ),
-        ];
-      },
-    );
-  }
-
+        ),
+      ];
+    },
+  );
+}
   void toggleFavorite(Map<String, dynamic> recipe) {
     setState(() {
       if (isFavorite(recipe)) {
