@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:p1_recipeapp_emmajared/pages/ExploresPage.dart';
 import 'package:p1_recipeapp_emmajared/pages/GroceryListPage.dart';
 import '/main.dart';
 
@@ -22,6 +23,10 @@ class RecipeDetailPageState extends State<RecipeDetailPage> {
   late List<bool> _checkedIngredients;
   List<String> _groceryList = [];
   late bool _isFavorite;
+   
+
+
+
 
   @override
   void initState() {
@@ -30,11 +35,12 @@ class RecipeDetailPageState extends State<RecipeDetailPage> {
     _isFavorite = widget.isFavorite;
   }
 
+   // Toggle the favorite status and call the callback to update global favorites
   void _toggleFavorite() {
     setState(() {
-      _isFavorite = !_isFavorite; 
+      _isFavorite = !_isFavorite; // Update local favorite state
     });
-    widget.onFavoriteToggle();
+    widget.onFavoriteToggle(); // Call the passed callback to update the global favorite list
   }
 
   void _toggleCheckbox(int index) {
@@ -92,7 +98,7 @@ class RecipeDetailPageState extends State<RecipeDetailPage> {
               _isFavorite ? Icons.favorite : Icons.favorite_border,
               color: _isFavorite ? Colors.red : null,
             ),
-            onPressed: _toggleFavorite, 
+            onPressed: _toggleFavorite, // Toggle favorite status when clicked
           ),
         ],
       ),
